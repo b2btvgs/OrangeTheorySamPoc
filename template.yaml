@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  OT-sample
+  SAM Template for OT-sample
+
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  OTMembershipApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: dev
+      # DefinitionUri: swagger.yaml
+
+  AddMemberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.addOTMember
+      Runtime: nodejs12.x
+      CodeUri: ./
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: OrangeTheoryMembership
+      Environment:
+        Variables:
+          TABLE_NAME: OrangeTheoryMembership
+      Events:
+        AddMemberApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OTMembershipApi
+            Path: /membership
+            Method: POST
+
+  GetMemberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.getOTMember
+      Runtime: nodejs12.x
+      CodeUri: ./
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: OrangeTheoryMembership
+      Environment:
+        Variables:
+          TABLE_NAME: OrangeTheoryMembership
+      Events:
+        GetMemberApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OTMembershipApi
+            Path: /membership/{memberId}
+            Method: GET
+
+  UpdateMemberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.updateOTMember
+      Runtime: nodejs12.x
+      CodeUri: ./
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: OrangeTheoryMembership
+      Environment:
+        Variables:
+          TABLE_NAME: OrangeTheoryMembership
+      Events:
+        GetMemberApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OTMembershipApi
+            Path: /membership/{memberId}
+            Method: PUT
+
+  DeleteMemberFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.deleteOTMember
+      Runtime: nodejs12.x
+      CodeUri: ./
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: OrangeTheoryMembership
+      Environment:
+        Variables:
+          TABLE_NAME: OrangeTheoryMembership
+      Events:
+        GetMemberApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OTMembershipApi
+            Path: /membership/{memberId}
+            Method: DELETE
+
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: OrangeTheoryMembership
+      AttributeDefinitions:
+        - AttributeName: memberId
+          AttributeType: S
+        - AttributeName: sortKey
+          AttributeType: S
+        - AttributeName: visitDate
+          AttributeType: S
+      KeySchema:
+        - AttributeName: memberId
+          KeyType: HASH
+        - AttributeName: sortKey
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+
+      GlobalSecondaryIndexes:
+        - IndexName: VisitDate_Member_GSI
+          KeySchema:
+            - AttributeName: visitDate
+              KeyType: HASH
+            - AttributeName: memberId
+              KeyType: RANGE
+          Projection:
+            NonKeyAttributes:
+              [classId, className, instructor, studioId, city, country]
+            ProjectionType: INCLUDE
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
+
+Outputs:
+  Region:
+    Description: Region
+    Value: !Ref AWS::Region
+  ApiId:
+    Description: Orange Theory Membership
+    Value: !Ref OTMembershipApi
+  ApiUrl:
+    Description: API endpoint URL for Prod environment
+    Value: !Sub https://${OTMembershipApi}.execute-api.${AWS::Region}.amazonaws.com/dev/

@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Very simple member CRUD POC using AWS SAM for Orange Theory Fitness
+  version: 0.1.0
+paths:
+  /membership/{memberId}:
+    get:
+      summary: Returns a single Orange Theory member
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          description: Fetches member profile in JSON format
+          schema:
+            type: string
+            format: string
+      responses:
+        "200":
+          description: OK
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "GET"
+        uri: "arn:aws:apigatew18996315:function:Orange-Theory-Membership-Stack-GetMemberFunction-SBHATXRQ4TS2/invocations"ay:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:0183
+        credentials: "arn:aws:iam::018318996315:role/Orange-Theory-Membership-Sta-GetMemberFunctionRole-1WQ3AQDTV4B48"
+  /membership/{memberId}:
+    put:
+      summary: Updates a single Orange Theory member
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          description: Updates member profile information
+          schema:
+            type: string
+            format: string
+      responses:
+        "200":
+          description: OK
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "PUT"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:018318996315:function:Orange-Theory-Membership-Stac-UpdateMemberFunction-1NDUTJ2Z7ABTR/invocations"
+        credentials: "arn:aws:iam::018318996315:role/Orange-Theory-Membership-UpdateMemberFunctionRole-1UV9ATKJ96EIE"
+  /membership/{memberId}:
+    delete:
+      summary: Updates a single Orange Theory member
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          description: Updates member profile information
+          schema:
+            type: string
+            format: string
+      responses:
+        "200":
+          description: OK
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "DELETE"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:018318996315:function:Orange-Theory-Membership-Stac-DeleteMemberFunction-D592CMAAHZLQ/invocations"
+        credentials: "arn:aws:iam::018318996315:role/Orange-Theory-Membership-DeleteMemberFunctionRole-139L2ZG9HGRL8"
+  /membership:
+    post:
+      summary: Creates a new Orange Theory member.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                phone:
+                  type: string
+                email:
+                  type: string
+                address:
+                  type: string
+                city:
+                  type: string
+                state:
+                  type: string
+                zipCode:
+                  type: string
+      responses:
+        "200":
+          description: Created
+      x-amazon-apigateway-integration:
+        type: "aws"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:018318996315:function:Orange-Theory-Membership-Stack-AddMemberFunction-RCIL7D4XW1H2/invocations"
+        credentials: "arn:aws:iam::018318996315:role/Orange-Theory-Membership-Sta-AddMemberFunctionRole-1T8KMP77FGAB9"
