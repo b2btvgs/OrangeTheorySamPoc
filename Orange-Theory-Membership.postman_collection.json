@@ -1,0 +1,127 @@
+{
+	"info": {
+		"_postman_id": "a8d175d9-ec72-4a74-8770-dc326792a098",
+		"name": "Orange-Theory-Membership",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Post Orange-Theory-Membership",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"Mary\",\n\t\"lastName\": \"Johnson\",\n\t\"address\": \"406 BrownThrush Rd\",\n\t\"city\": \"Augusta\",\n\t\"state\": \"Georgia\",\n\t\"zipCode\": \"40404\",\n\t\"phone\": \"3024546785\",\n\t\"email\": \"mjohnson@acmelogistics.com\"\n}"
+				},
+				"url": {
+					"raw": "https://jlfftq0h56.execute-api.us-east-1.amazonaws.com/dev/membership",
+					"protocol": "https",
+					"host": [
+						"jlfftq0h56",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"membership"
+					]
+				},
+				"description": "https://jlfftq0h56.execute-api.us-east-1.amazonaws.com/dev"
+			},
+			"response": []
+		},
+		{
+			"name": "Get OTMember",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://jlfftq0h56.execute-api.us-east-1.amazonaws.com/dev/membership/90ad5c30-478e-11ea-9a7b-99c3da215263",
+					"protocol": "https",
+					"host": [
+						"jlfftq0h56",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"membership",
+						"90ad5c30-478e-11ea-9a7b-99c3da215263"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update OTMember",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Fred\",\n    \"lastName\": \"Smith\",\n    \"address\": \"401 BrownThrush Rd\",\n    \"city\": \"Minneapolis\",\n    \"state\": \"Minnesota\",\n    \"zipCode\": \"50405\",\n    \"phone\": \"6516784956\",\n    \"email\": \"jsmith@acmelogistics.com\",\n    \"memberId\": \"23f7a080-47c2-11ea-9f57-d7a23a2d8a6e\",\n    \"sortKey\": \"MEMBER\",\n    \"state_city\": \"Minnesota_Minneapolis\",\n    \"joinedDate\": 1580870974088\n}"
+				},
+				"url": {
+					"raw": "https://jlfftq0h56.execute-api.us-east-1.amazonaws.com/dev/membership/23f7a080-47c2-11ea-9f57-d7a23a2d8a6e",
+					"protocol": "https",
+					"host": [
+						"jlfftq0h56",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"membership",
+						"23f7a080-47c2-11ea-9f57-d7a23a2d8a6e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete OTMeber",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://jlfftq0h56.execute-api.us-east-1.amazonaws.com/dev/membership/ef10bf20-46f7-11ea-b361-59f99bf64ec7",
+					"protocol": "https",
+					"host": [
+						"jlfftq0h56",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"dev",
+						"membership",
+						"ef10bf20-46f7-11ea-b361-59f99bf64ec7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
