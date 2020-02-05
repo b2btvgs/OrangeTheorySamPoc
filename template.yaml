@@ -20,7 +20,7 @@ Resources:
     Properties:
       Handler: handler.addOTMember
       Runtime: nodejs12.x
-      CodeUri: ./
+      CodeUri: ./source/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: OrangeTheoryMembership
@@ -40,7 +40,7 @@ Resources:
     Properties:
       Handler: handler.getOTMember
       Runtime: nodejs12.x
-      CodeUri: ./
+      CodeUri: ./source/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: OrangeTheoryMembership
@@ -60,7 +60,7 @@ Resources:
     Properties:
       Handler: handler.updateOTMember
       Runtime: nodejs12.x
-      CodeUri: ./
+      CodeUri: ./source/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: OrangeTheoryMembership
@@ -80,7 +80,7 @@ Resources:
     Properties:
       Handler: handler.deleteOTMember
       Runtime: nodejs12.x
-      CodeUri: ./
+      CodeUri: ./source/
       Policies:
         - DynamoDBCrudPolicy:
             TableName: OrangeTheoryMembership

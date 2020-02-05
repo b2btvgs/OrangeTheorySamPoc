@@ -1,29 +1,12 @@
+'use strict';
 
-const AWS = require('aws-sdk');
 const uuid = require('uuid');
 
-let dynamo = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME = process.env.TABLE_NAME;
+const dynamoDBManager = require('./dynamoDBManager');
+const responseManager = require('./responseManager');
 
-const saveItem = async params => {
-    return dynamo.put(params).promise().then(() => {
-        return params;
-    });
-};
-
-const getItem = async params => {
-    return dynamo.get(params).promise().then(result => {
-        console.log(result);
-        return result.Item;
-    });
-};
-
-const deleteItem = async params => {
-    return dynamo.delete(params).promise().then(result => {
-        console.log(result);
-        return result.Item;
-    });
-};
+// const TABLE_NAME = process.env.TABLE_NAME;
+const TABLE_NAME = 'OrangeTheoryMembership';
 
 const listItems = async params => {
     return dynamo.get(params).promise().then(result => {
@@ -34,6 +17,7 @@ const listItems = async params => {
 
 module.exports.addOTMember = async (event) => {
     console.log('addOTMember initiated');
+    console.log('table name is: ' + TABLE_NAME);
 
     const memberProfile = JSON.parse(event.body);
     memberProfile.memberId = uuid.v1();
@@ -44,12 +28,13 @@ module.exports.addOTMember = async (event) => {
         TableName: TABLE_NAME,
         Item: memberProfile
     }
-    const result = await saveItem(tableParams);
+    const result = await dynamoDBManager.saveItem(tableParams);
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(result),
-        headers: {}
+    try {
+        await dynamoDBManager.saveItem(tableParams);
+        return responseManager.success(tableParams);
+    } catch (e) {
+        return responseManager.failure({ status: false });
     }
 }
 
@@ -70,12 +55,11 @@ module.exports.getOTMember = async (event) => {
 
     console.log('tableParams is: ' + JSON.stringify(tableParams));
 
-    const result = await getItem(tableParams);
-
-    return {
-        statusCode: 200,
-        body: JSON.stringify(result),
-        headers: {}
+    try {
+        const result = await dynamoDBManager.getItem(tableParams);
+        return responseManager.success(result);
+    } catch (e) {
+        return responseManager.failure({ status: false });
     }
 }
 
@@ -89,12 +73,15 @@ module.exports.updateOTMember = async (event) => {
         TableName: TABLE_NAME,
         Item: memberProfile
     }
-    const result = await saveItem(tableParams);
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(result),
-        headers: {}
+    try {
+        console.log('invoking dynamoDBManager.saveItem');
+        const result = await dynamoDBManager.saveItem(tableParams);
+
+        return responseManager.success(result.Item);
+        // return responseManager.success(result);
+    } catch (e) {
+        return responseManager.failure({ status: false });
     }
 }
 
@@ -115,12 +102,13 @@ module.exports.deleteOTMember = async (event) => {
 
     console.log('tableParams is: ' + JSON.stringify(tableParams));
 
-    const result = await deleteItem(tableParams);
+    const result = await dynamoDBManager.deleteItem(tableParams);
 
-    return {
-        statusCode: 200,
-        body: JSON.stringify(result),
-        headers: {}
+    try {
+        const result = await dynamoDBManager.deleteItem(tableParams);
+        return responseManager.success(result);
+    } catch (e) {
+        return responseManager.failure({ status: false });
     }
 }
 
