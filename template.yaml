@@ -55,6 +55,26 @@ Resources:
             Path: /membership/{memberId}
             Method: GET
 
+  GetALLMemberSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.listOTMembers
+      Runtime: nodejs12.x
+      CodeUri: ./source/
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: OrangeTheoryMembership
+      Environment:
+        Variables:
+          TABLE_NAME: OrangeTheoryMembership
+      Events:
+        GetMemberApi:
+          Type: Api
+          Properties:
+            RestApiId: !Ref OTMembershipApi
+            Path: /membership/
+            Method: GET
+
   UpdateMemberFunction:
     Type: AWS::Serverless::Function
     Properties:
